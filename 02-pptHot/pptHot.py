@@ -62,12 +62,7 @@ def get_author_ids(posts, pattern):
 
 
 def main():
-    print('111111')
     current_page = get_web_page(PTT_URL + '/bbs/Gossiping/index.html')
-    print(current_page)
-    print('222222')
-    return
-    print('333333')
     if current_page:
         # To keep all of today's articles.
         articles = []
@@ -78,10 +73,12 @@ def main():
         current_articles, prev_url = get_articles(current_page, today)
 
         while current_articles:
+            print('.', end="",flush=True)
             articles += current_articles
             current_page = get_web_page(PTT_URL + prev_url)
             current_articles, prev_url = get_articles(current_page, today)
 
+        print(" ")
         print("Today's 5566:")
         print(get_author_ids(articles, '5566'))
 
@@ -94,6 +91,8 @@ def main():
         # with as: https://openhome.cc/Gossip/Python/WithAs.html
         # json.dump: http://python3-cookbook.readthedocs.io/zh_CN/latest/c06/p02_read-write_json_data.html
         with open('gossiping.json', 'w', encoding='UTF-8') as file:
+            # ensure_ascii=False 輸出中文
+            # sort_keys=True 按 key 順序排列
             json.dump(articles, file, indent=2, sort_keys=True, ensure_ascii=False)
 
 
