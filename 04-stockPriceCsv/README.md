@@ -1,9 +1,9 @@
-# stockPrice
-取得本月 2330 的股價 
+# stockPriceCsv
+取得本月 2330 的股價並存至 csv 
 
 ## run
 ```
-(myenv11_02) PS D:\work\git\python_crawler\03-stockPrice> python .\stockPrice.py
+(myenv11_02) PS D:\work\git\python_crawler\04-stockPriceCsv> python .\stockPriceCsv.py
 取得本月台積電 (2330) 的股價 2022 11...
 {'日期': '111/11/01', '開盤價': '388.50', '收盤價': '391.50', '成交筆數': '29,780'}
 {'日期': '111/11/02', '開盤價': '391.00', '收盤價': '395.00', '成交筆數': '22,285'}

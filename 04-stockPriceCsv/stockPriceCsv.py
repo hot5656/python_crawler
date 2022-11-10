@@ -1,5 +1,6 @@
 import requests
 import time
+import csv
 
 TWSE_URL = 'http://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json'
 
@@ -36,8 +37,16 @@ def main():
     current_month = time.strftime('%m')
     print('取得本月台積電 (2330) 的股價 %s %s...' % (current_year, current_month))
     collected_info = get_data(stock_id, current_date)
-    for info in collected_info:
-        print(info)
+
+    # output to csv file
+    with open('stockThisMonth.csv', 'w', encoding='UTF-8', newline='') as file: # excel 開檔,中文有問題
+    # with open('stockThisMonth.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['日期', '開盤價', '收盤價', '成交筆數'])
+            for info in collected_info:
+                    print(info)
+                    writer.writerow([info['日期'], info['開盤價'], info['收盤價'], info['成交筆數']])
+
 
 
 if __name__ == '__main__':
