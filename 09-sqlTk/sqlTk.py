@@ -3,9 +3,9 @@ from tkinter import ttk
 import sqlite3
 
 
-def View(sqltext,tree):
-    global sqlite3
-    # global sqltext
+# def View(sqltext,tree):
+def View():
+    # global sqlite3
 
     for item in tree.get_children():
         tree.delete(item)
@@ -28,6 +28,8 @@ sqltext = Text(height=3, width=100)
 sqltext.pack()
 sqltext.insert(END, "SELECT * FROM stockPrice")
 
+buttonQuery  = Button(text="查詢", command=View)
+buttonQuery .pack(pady=10, )
 
 tree = ttk.Treeview(column=("c1", "c2", "c3", "c4"), show='headings')
 tree.column("#1", anchor=CENTER)
@@ -40,8 +42,9 @@ tree.column("#4", anchor=CENTER)
 tree.heading("#4", text="成交筆數")
 tree.pack()
 
-buttonQuery  = Button(text="查詢", command=View(sqltext,tree))
-buttonQuery .pack(pady=10)
+# buttonQuery  = Button(text="查詢", command=View(sqltext,tree))
+# buttonQuery  = Button(text="查詢", command=View)
+# buttonQuery .pack(pady=10, )
 
 # 保持顯示 window
 window.mainloop()

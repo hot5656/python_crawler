@@ -9,8 +9,9 @@
 (myenv11_02) PS D:\work\git\python_crawler\08-tkinter> python .\tableTk.py   
 ```
 
-{% asset_img pic1.png pic1 %}
+![image](pic1.png)
 
-{% asset_img pic2.png pic2 %}
+![image](pic2.png)
 
-{% asset_img pic3.png pic3 %}
+![image](pic3.png)
+
