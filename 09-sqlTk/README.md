@@ -1,5 +1,5 @@
 # sqlTk
-開出一個視窗,按button後,讀出sqlit DB資料到視窗 
+開出一個視窗,按button後,讀出sqlite DB資料到視窗 
 
 ## run
 ```
