@@ -1,68 +1,65 @@
-import requests
-from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 from time import sleep
-
-url = 'https://www.dcard.tw/f'
-# headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.79 Safari/537.36'}
-
-
-def main():
-  current_page = get_web_page(url)
-  return
-  if current_page:
-    print(current_page)
-    soup = BeautifulSoup(current_page, 'html.parser')
-    topic_entry_pattern = '^PostEntry_container_'
-    topic_title_pattern = 'strong'
-    find_top10_hot_title(soup, topic_entry_pattern, topic_title_pattern)
+import re
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 
-# def get_web_page(url, headers):
-#   resp = requests.get(url=url, headers=headers)
-#   print(resp)
-#   if resp.status_code != 200:
-#     print('Invalid url:', resp.url)
-#     return None
-#   else:
-#     return resp.text
+def find_top10_hot_title(soup, post_list, key_pattern):
+  top_ten_topic = soup.find_all('div', {'data-key': re.compile(key_pattern)})
+  i = 1
+  print('length=' + str(len(top_ten_topic)))
+  print('=======================')
+  for topic in top_ten_topic:
+    key = topic['data-key']
+    print(key)
+    if key in post_list:
+      # if get already show * n *
+      print('*'+str(i)+'* '+topic.find('h2').text.strip()+'==')
+      # pass
+    else:
+      print('('+str(i)+') '+topic.find('h2').text.strip()+'==')
+      post_list.append(topic['data-key'])
+    print('=======================')
+    i += 1
 
-def get_web_page(url):
-  # ua = UserAgent()
-  # print(ua.chrome)
-  # header = {'User-Agent':str(ua.chrome)}
-  # print(header)
-  # # url = "https://www.hybrid-analysis.com/recent-submissions?filter=file&sort=^timestamp"
-  # htmlContent = requests.get(url, headers=header)
+def page_down(element, times, sec):
+  print("[%] Scrolling down.")
+  for i in range(times):
+    print(i)
+    element.send_keys(Keys.PAGE_DOWN)
+    sleep(sec)  # bot id protection
 
-  # ua = UserAgent()
-  # user_agent = ua.random
-  # # 產生 headers
-  # headers = {'user-agent': user_agent}
-  # htmlContent = requests.get(url, headers=headers)
-
-  driver = webdriver.Chrome()
-  driver.get(url)
-  sleep(2)
-  # eles = driver.find_elements_by_class_name('tgn9uw-0')
-  eles = driver.find_element(By.CLASS_NAME, "kpbNHU")
-  # for ele in eles:
-  #     print(ele)
-  # driver.quit()
-  print('===============')
-  print(eles)
-  # for ele in eles:
-  #   print('===============')
-  #   print(ele)
-
-
-  # print(htmlContent)
-
-def find_top10_hot_title(soup, topic_entry_pattern, topic_title_pattern):
-  pass
-  # top_ten_topic = soup.find_all('div', {})
+# save post - it check get post already
+post_list = list()
 
 if __name__ == '__main__':
-  main()
+  browser = webdriver.Chrome()
+  browser.get('https://www.dcard.tw/f')
+  sleep(2)
+
+  # element for press page down
+  element = browser.find_element(By.TAG_NAME, "body")
+
+  # loop break when get >= 10 post
+  count=0
+  for count in range(10):
+    page_down(element, 2, 0.5)
+    html = browser.page_source
+    soup = BeautifulSoup(browser.page_source, 'html.parser')
+    find_top10_hot_title(soup, post_list, 'post-*')
+    print(post_list)
+    if (len(post_list)>=10):
+      break
+
+  # # html write to file
+  # # Opening the existing HTML file
+  # Func = open("t1.html","w",encoding='utf-8')
+  # # Adding input data to the HTML file
+  # Func.write(html)
+  # # Saving the data into the HTML file
+  # Func.close()
+
+  # exit browser
+  browser.quit()
