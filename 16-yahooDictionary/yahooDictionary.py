@@ -36,12 +36,12 @@ def search_dictionary(word):
           for item in means:
             print(f' {item.text}')
         else:
-            print(f' {word} isn\'t found')
+            print(f' "{word}" isn\'t found')
       except:
         pass
 
     if means == None:
-      print(f' {word} isn\'t found')
+      print(f' "{word}" isn\'t found')
 
   return
 

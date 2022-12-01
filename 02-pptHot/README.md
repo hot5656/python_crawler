@@ -2,7 +2,7 @@
 
 ## install
 ```
-PS D:\work\git\python_crawler\02-pptHot> pip install html5lib 
+PS D:\work\git\python_crawler\02-pptHot> pip install html5lib
 Collecting html5lib
   Using cached html5lib-1.1-py2.py3-none-any.whl (112 kB)
 Collecting six>=1.9
@@ -13,10 +13,10 @@ Installing collected packages: webencodings, six, html5lib
 Successfully installed html5lib-1.1 six-1.16.0 webencodings-0.5.1
 ```
 
-## run
+## pptHot.py
 ```
 PS D:\work\git\python_crawler\02-pptHot> python .\pptHot.py
-....................................................................... 
+.......................................................................
 Today's 5566:
 {'fucKMT5566', 'med5566', 'AV5566', 'zu5566', 'FL5566', 'ncc5566', 'SaChiA5566', 'oz5566', 'garry5566', 'Nigger5566', 'scum5566', 'kasumi5566', 'Kobemail5566', 'a55665203031', 'shipping5566', 'murray5566', 'kenhiro5566', 'berkeley5566', 'kenq5566', 'epson5566', 'KTR5566', 'girl55665566', 'noah5566', 'LYS5566', 'lianpig5566', 'JinCheng5566', 'casco5566', 'yayaya5566', 'odd5566', 'josi5566'}
 
@@ -25,12 +25,12 @@ Hot post(≥ 50 push):
 {'title': '[新聞] 快訊／內湖科學園區傳離奇墜樓\u3000男躺人', 'href': '/bbs/Gossiping/M.1667833089.A.EBF.html', 'push_count': 55, 'author': 'qazxc1156892'}
 {'title': '[新聞] 影／陳時中出餐廳門「摟人妻」畫面曝光\u3000', 'href': '/bbs/Gossiping/M.1667832402.A.C02.html', 'push_count': 99, 'author': 'whitebreath'}
 {'title': '[新聞] 馬斯克入主推特「90%印度人」被解雇\u3000全', 'href': '/bbs/Gossiping/M.1667831524.A.02F.html', 'push_count': 53, 'author': 'silentknight'}
-{'title': '[新聞] 高虹安捲公款私用風波 林耕仁明赴北機站「提供事證」', 'href': '/bbs/Gossiping/M.1667828907.A.C2F.html', 'push_count': 74, 'author': 'takuminauki'}  
+{'title': '[新聞] 高虹安捲公款私用風波 林耕仁明赴北機站「提供事證」', 'href': '/bbs/Gossiping/M.1667828907.A.C2F.html', 'push_count': 74, 'author': 'takuminauki'}
 {'title': '[新聞] 聚餐8006元卻「算整數9000給委員」 林耕', 'href': '/bbs/Gossiping/M.1667829411.A.470.html', 'push_count': 97, 'author': 'RodrigueZ810'}
 {'title': '[爆卦] 高虹安 FB：對手陣營烏龍爆料', 'href': '/bbs/Gossiping/M.1667828436.A.6C3.html', 'push_count': 95, 'author': 'alrin891202'}
 {'title': '[新聞] PTT鄉民爆假料！丁金聰是審議「高端」專', 'href': '/bbs/Gossiping/M.1667824467.A.762.html', 'push_count': 99, 'author': 'chadmu'}
 {'title': '[爆卦] 新竹球場外牆裂開', 'href': '/bbs/Gossiping/M.1667823362.A.3C7.html', 'push_count': 99, 'author': 'cmcmisgod'}
-{'title': '[新聞] 世界圍棋賽事！ 南韓女棋士「淡定吃蕉」對手焦慮擦淚', 'href': '/bbs/Gossiping/M.1667824104.A.6CD.html', 'push_count': 65, 'author': 'ezJapan'}      
+{'title': '[新聞] 世界圍棋賽事！ 南韓女棋士「淡定吃蕉」對手焦慮擦淚', 'href': '/bbs/Gossiping/M.1667824104.A.6CD.html', 'push_count': 65, 'author': 'ezJapan'}
 {'title': '[新聞] 林耕仁爆料打到要害？徐巧芯揭「恐怖前', 'href': '/bbs/Gossiping/M.1667821784.A.0AE.html', 'push_count': 99, 'author': 'q3810'}
 {'title': '[新聞] 狂吼唐寶寶 炸物店老闆掐攤商脖官司纏身', 'href': '/bbs/Gossiping/M.1667820850.A.EB9.html', 'push_count': 99, 'author': 'f230072828'}
 {'title': '[新聞] 黃珊珊太猛！騎自行車15小時60公里\u3000百名', 'href': '/bbs/Gossiping/M.1667818770.A.58B.html', 'push_count': 99, 'author': 'EddiePENG'}
@@ -71,11 +71,11 @@ Hot post(≥ 50 push):
 {'title': '[新聞] 驚悚影片！女闖紅燈走斑馬線遭撞\u3000倒地再', 'href': '/bbs/Gossiping/M.1667797172.A.805.html', 'push_count': 99, 'author': 'losel'}
 {'title': '[新聞] 快訊／被導航帶到小路！轎車摔落農地側', 'href': '/bbs/Gossiping/M.1667796258.A.B6A.html', 'push_count': 79, 'author': 'ffreakk'}
 {'title': '[問卦] 「鹹豬手」有沒有委婉一點的說法', 'href': '/bbs/Gossiping/M.1667795525.A.468.html', 'push_count': 99, 'author': 'ambitious'}
-{'title': '[新聞] 摟人妻被指鹹豬手 陳時中：支持者相當熱情，我欣然接受', 'href': '/bbs/Gossiping/M.1667794321.A.29B.html', 'push_count': 99, 'author': 'usokami'}    
+{'title': '[新聞] 摟人妻被指鹹豬手 陳時中：支持者相當熱情，我欣然接受', 'href': '/bbs/Gossiping/M.1667794321.A.29B.html', 'push_count': 99, 'author': 'usokami'}
 {'title': '[新聞] 炸物老闆不道歉！聲明「1照片」引質疑\u3000', 'href': '/bbs/Gossiping/M.1667794768.A.FD4.html', 'push_count': 99, 'author': 'str8g'}
 {'title': '[新聞] 快訊／遭爆料伸鹹豬手 陳時中否認：那是', 'href': '/bbs/Gossiping/M.1667794007.A.991.html', 'push_count': 61, 'author': 'yongqil'}
 {'title': 'Re: [新聞] 衛福部醫審會鑑定書神救援 名醫丁金聰被訴醫療過失 逆轉', 'href': '/bbs/Gossiping/M.1667793149.A.B9D.html', 'push_count': 83, 'author': 'iammatrix'}
-{'title': '[新聞] 快訊／陳時中摟人妻「不只8張照」\u3000徐巧芯再爆', 'href': '/bbs/Gossiping/M.1667793204.A.D77.html', 'push_count': 99, 'author': 'greenmiracle'}   
+{'title': '[新聞] 快訊／陳時中摟人妻「不只8張照」\u3000徐巧芯再爆', 'href': '/bbs/Gossiping/M.1667793204.A.D77.html', 'push_count': 99, 'author': 'greenmiracle'}
 {'title': '[新聞] 被問指揮中心是否淪為「偷情中心」？', 'href': '/bbs/Gossiping/M.1667792517.A.283.html', 'push_count': 99, 'author': 'omanorboyo'}
 {'title': '[新聞] 亮300頁LINE截圖！高虹安喊：沒詐領助理', 'href': '/bbs/Gossiping/M.1667792701.A.7EA.html', 'push_count': 85, 'author': 'pkmu8426'}
 {'title': '[新聞] 高虹安助理案 林耕仁再質疑：助理薪資', 'href': '/bbs/Gossiping/M.1667791456.A.DFE.html', 'push_count': 98, 'author': 'cheinshin'}
@@ -95,7 +95,7 @@ Hot post(≥ 50 push):
 {'title': '[問卦] 看到下屬老婆很正，做何感想', 'href': '/bbs/Gossiping/M.1667784205.A.A5D.html', 'push_count': 53, 'author': 'higamanami'}
 {'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667784384.A.A61.html', 'push_count': 58, 'author': 'Kay731'}
 {'title': '[問卦] 紙風車劇團這幾年變得很有名？', 'href': '/bbs/Gossiping/M.1667781569.A.AA5.html', 'push_count': 97, 'author': 'botnet'}
-{'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667779690.A.547.html', 'push_count': 79, 'author': 'sevenway777'}       
+{'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667779690.A.547.html', 'push_count': 79, 'author': 'sevenway777'}
 {'title': '[新聞] 拜登丟臉了？美國加油站賣的是俄油 外媒', 'href': '/bbs/Gossiping/M.1667780056.A.F4A.html', 'push_count': 68, 'author': 'Workforme'}
 {'title': '[問卦] 老婆被老男人十指緊扣加摟肩會暴怒嗎', 'href': '/bbs/Gossiping/M.1667776713.A.300.html', 'push_count': 99, 'author': 'ianlin1216'}
 {'title': '[問卦] 我朋友摟了人妻，要怎麼開脫？', 'href': '/bbs/Gossiping/M.1667777889.A.931.html', 'push_count': 98, 'author': 'Xenogeous'}
@@ -104,12 +104,44 @@ Hot post(≥ 50 push):
 {'title': '[問卦] 翁立友現在在想什麼？', 'href': '/bbs/Gossiping/M.1667775765.A.3A3.html', 'push_count': 61, 'author': 'nicolaschen2'}
 {'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667775889.A.9B3.html', 'push_count': 98, 'author': 'Doica2445'}
 {'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667758174.A.2A3.html', 'push_count': 76, 'author': 'ip001'}
-{'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667753702.A.90A.html', 'push_count': 90, 'author': 'RandyMarsh'}        
+{'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667753702.A.90A.html', 'push_count': 90, 'author': 'RandyMarsh'}
 {'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667754824.A.61E.html', 'push_count': 99, 'author': 'iammatrix'}
-{'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667752851.A.A16.html', 'push_count': 58, 'author': 'omanorboyo'}        
+{'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667752851.A.A16.html', 'push_count': 58, 'author': 'omanorboyo'}
 {'title': '[問卦] 跟老闆聚餐老婆被牽被摟會生氣嗎？', 'href': '/bbs/Gossiping/M.1667752454.A.104.html', 'push_count': 63, 'author': 'elite31307'}
 {'title': '[問卦] 誰能忍公開場合老婆被其它男人摟肩牽手?', 'href': '/bbs/Gossiping/M.1667751512.A.441.html', 'push_count': 97, 'author': 'ivorysoap'}
 {'title': 'Re: [新聞] 快訊／烏龍爆料陳時中牽手人妻？\u3000紙風', 'href': '/bbs/Gossiping/M.1667750956.A.207.html', 'push_count': 99, 'author': 'iammatrix'}
-PS D:\work\git\python_crawler\02-pptHot> 
+PS D:\work\git\python_crawler\02-pptHot>
 ```
 
+## pptHotFrom.py
+```
+(myenv11_02) D:\work\run\python_crawler\02-pptHot>python pptHotFrom.py
++++.++++++++++++++++++++.++++++++++++++++++++
+(01) 223.136.220.209-Taiwan          Re: [新聞] 郭正亮揭露「侯友宜」的可怕：若他選
+(02) 118.168.155.114-Taiwan          [問卦] 摩斯賣年菜？
+(03) 1.200.254.49   -Taiwan          [問卦] 美國人：戴口罩是廢物的行為
+(04) 42.77.156.195  -Taiwan          [問卦] 請問要怎麼教喵喵後空翻？
+(05) 118.167.210.128-Taiwan          [新聞] 《First Love初戀》登Netflix全球非英語劇榜前十！宇多田光
+(06) 70.142.145.101 -United States   [問卦] 對岸最表明真相的國歌
+(07) 27.53.32.248   -Taiwan          [問卦] 有人小時候都沒被風紀記黑板的嗎？
+(08) 220.128.223.151-Taiwan          Re: [問卦] 癌症這東西到現在還是很難根治的原因是啥
+(09) 27.247.131.75  -Taiwan          [問卦] 真的有人拿到夠大的權力還不傲慢的嗎？
+(10) 223.139.95.183 -Taiwan          [新聞] 女力崛起！中彰投雲首長都女性
+(11) 101.12.90.95   -Taiwan          Re: [問卦] 現在還戴著口罩是甚麼人？
+(12) 61.221.98.2    -Taiwan          [問卦] 現在只有阿北聽過 玩過世紀帝國嗎?
+(13) 112.78.74.40   -Taiwan          [問卦] 快篩過剩下為何不全民發快篩？
+(14) 39.9.62.49     -Taiwan          [問卦] 該選哪個學士後的科系
+(15) 220.134.66.219 -Taiwan          [問卦] 被肛 是人打的 還是機器人
+(16) 101.12.45.88   -Taiwan          Re: [新聞] 林書豪怒了！吐槽中國職籃隔離賽區健身房
+(17) 111.83.249.57  -Taiwan          [問卦] 003是如何從煙鬼蛇王變成yt聖母
+(18) 223.137.138.157-Taiwan          [新聞] 慾望「滿到頭頂」!小三被人夫撞到腹痛：
+(19) 49.216.165.143 -Taiwan          [問卦] 男人是不是一定要養貓？
+(20) 114.43.47.58   -Taiwan          Re: [問卦] 癌症這東西到現在還是很難根治的原因是啥
+(21) 42.79.182.109  -Taiwan          [問卦] 白紙革命的島嶼天光適合哪首？
+(22) 220.138.48.105 -Taiwan          Re: [新聞] 高嘉瑜喊「寧鳴而死」鍾年晃：你不配！有
+(23) 122.116.240.69 -Taiwan          Re: [新聞] 快訊／警察監視器覆議案沒過　柯文哲怒轟
+
+There are  23  posts today.
+
+(myenv11_02) D:\work\run\python_crawler\02-pptHot>
+```
