@@ -5,7 +5,7 @@ class GdpDebtSpider(scrapy.Spider):
     name = 'gdp_debt'
     allowed_domains = ['worldpopulationreview.com']
     # start_urls = ['http://worldpopulationreview.com/']
-    start_urls = ['https://worldpopulationreview.com/country-rankings/countries-by-national-debt/']
+    start_urls = ['https://worldpopulationreview.com/country-rankings/countries-by-national-debt']
 
     def parse(self, response):
         rows = response.xpath("//tbody/tr")
