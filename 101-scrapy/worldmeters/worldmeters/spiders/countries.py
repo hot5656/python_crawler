@@ -22,15 +22,8 @@ class CountriesSpider(scrapy.Spider):
       # add meta for callback parameter
       yield response.follow(url=link, callback=self.parse_country, meta={'country_name': name})
 
-  def parse_country(self, response, item=None):
-    if item:
-        # populate more `item` fields
-        return item
-    else:
-        inspect_response(response, self)
-
-    # inspect_response(response, self)
-    # inspect_response(response, self)
+  def parse_country(self, response):
+    inspect_response(response, self)
 
     # add meta for callback parameter
     # name = response.request.meta['country_name']
