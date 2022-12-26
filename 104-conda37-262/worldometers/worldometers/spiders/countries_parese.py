@@ -1,7 +1,8 @@
 import scrapy
+# from scrapy.shell import inspect_response
 
 class CountriesSpider(scrapy.Spider):
-  name = 'countries'
+  name = 'countries_parese'
   allowed_domains = ['www.worldometers.info']
   # start_urls = ['https://www.worldometers.info/']
   start_urls = ['https://www.worldometers.info/world-population/population-by-country']
@@ -22,6 +23,7 @@ class CountriesSpider(scrapy.Spider):
       yield response.follow(url=link, callback=self.parse_country, meta={'country_name': name})
 
   def parse_country(self, response):
+    # inspect_response(response, self)
 
     # add meta for callback parameter
     name = response.request.meta['country_name']
@@ -34,4 +36,3 @@ class CountriesSpider(scrapy.Spider):
         'year' : year,
         'population': population
       }
-
