@@ -37,6 +37,5 @@ class BestMoviesSpider(CrawlSpider):
             'genre': response.xpath("//div[@class='ipc-chip-list__scroller']/a/span/text()").getall(),
             'rating': response.xpath("//div[@data-testid='hero-rating-bar__aggregate-rating__score']/span[1]/text()").get(),
             'movie_url': response.url,
-            'user-agent': response.request.headers['User-Agent']
         }
 
