@@ -10,6 +10,8 @@ from itemadapter import ItemAdapter
 import pymongo
 # for SQlite
 import sqlite3
+# for mongodb client link
+import mongodb_altas
 
 # for MongoDB - changhe name
 class MongodbPipeline:
@@ -17,7 +19,8 @@ class MongodbPipeline:
 
     def open_spider(self, spider):
         # for MongoDB
-        self.client = pymongo.MongoClient("mongodb+srv://robert:testtest@cluster0.vpuxrtz.mongodb.net/?retryWrites=true&w=majority")
+        # for mongodb client link
+        self.client = pymongo.MongoClient(mongodb_altas.mogodb_link)
         self.db = self.client["IMDB"]
 
     def close_spider(self, spider):
