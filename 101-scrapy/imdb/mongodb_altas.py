@@ -1,1 +1,0 @@
-mogodb_link = "mongodb+srv://robert:testtest@cluster0.vpuxrtz.mongodb.net/?retryWrites=true&w=majority"
