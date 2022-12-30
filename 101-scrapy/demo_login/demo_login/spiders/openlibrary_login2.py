@@ -11,15 +11,18 @@ class OpenlibaryLoginSpider(scrapy.Spider):
     def parse(self, response):
         yield FormRequest.from_response(
             response,
-            # formxpath='//form[@class="iaform login-form"]',
-            formxpath='//form[contains(@class, "iaform login-form")]',
+            # formxpath also need
+            formxpath='//form[@class="iaform login-form"]',
             formdata = {
                 'username': open_library.username,
                 'password': open_library.password,
-                'remember': response.xpath("//input[@name='remember']/@value").get(),
-                'referer': response.xpath("//input[@name='referer']/@value").get(),
-                'login': response.xpath("//input[@name='login']/@value").get(),
-                'submit_by_js': 'true'
+                # 'remember': response.xpath("//input[@name='remember']/@value").get(),
+                # 'referer': response.xpath("//input[@name='referer']/@value").get(),
+                # 'login': response.xpath("//input[@name='login']/@value").get(),
+                'login': 'true',
+                'remember': 'true',
+                'referer': 'https://archive.org/',
+                'submit-to-login': 'Log in'
             },
             callback = self.after_login
         )
