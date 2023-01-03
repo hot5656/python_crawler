@@ -1,5 +1,5 @@
 import scrapy
-from scrapy_splash import SplashRequest, SplashFormRequest
+from scrapy_splash import SplashRequest
 
 
 class Coins2Spider(scrapy.Spider):
@@ -37,39 +37,23 @@ class Coins2Spider(scrapy.Spider):
 
     def parse(self, response):
         coins = response.xpath("//a[@class='currency-name-container link-secondary']")
+        i = 1
         for coin in coins:
-            # print("============")
-            # print(coin.xpath(".//@href").get())
-            # print(coin)
-            # yield {
-            #     'url': coin.xpath(".//@href").get(),
-            #     'name': coin.xpath(".//text()").get()
-            # }
-            print("2============")
+            print(f"({i})============")
+            i += 1
             yield SplashRequest(
                 url = f'https://web.archive.org{coin.xpath(".//@href").get()}',
                 endpoint='execute',
-                # args = {
-                #     'timeout':8,
-                #     'images':0
-                # },
                 args = {
                     'lua_source': self.script2
                 },
                 callback=self.parse_next
             )
-            # yield SplashRequest(url=absolute_url, callback=self.parse, endpoint="execute", args={
-            #     'lua_source': self.script
-            # })
-            # print("3============")
-            # print(coin.xpath(".//tetx()"))
 
     def parse_next(self, response):
-        # print("4============")
-        # print(response.xpath("normalize-space((//h1/text())[2])").get())
+        print("next ============")
         yield {
             'name': response.xpath("normalize-space((//h1/text())[2])").get(),
             'rank': response.xpath("//span[@class='label label-success']/text()").get(),
             'price(USD)': response.xpath("//span[@class='h2 text-semi-bold details-panel-item--price__value']/text()").get()
         }
-

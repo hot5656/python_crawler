@@ -13,13 +13,8 @@ class CoinsSpider(CrawlSpider):
     )
 
     def parse_item(self, response):
-        # item = {}
-        #item['domain_id'] = response.xpath('//input[@id="sid"]/@value').get()
-        #item['name'] = response.xpath('//div[@id="name"]').get()
-        #item['description'] = response.xpath('//div[@id="description"]').get()
         yield {
             'name': response.xpath("normalize-space((//h1/text())[2])").get(),
             'rank': response.xpath("//span[@class='label label-success']/text()").get(),
             'price(USD)': response.xpath("//span[@class='h2 text-semi-bold details-panel-item--price__value']/text()").get()
         }
-        # return item
