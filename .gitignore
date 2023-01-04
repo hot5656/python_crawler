@@ -1,3 +1,4 @@
 *.bak
+*.mp3
 #-- scrapy
 __pycache__/

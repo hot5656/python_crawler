@@ -23,6 +23,9 @@ class BasicItemsSpider(scrapy.Spider):
     items = resp.xpath("//a[@class='item-name']")
     print(items)
     print("12 ==============")
+    if len(items) == 0:
+        print(f"info_raw: {info_raw}")
+        print("13 ==============")
     for item in items:
         print(item.xpath(".//text()").get())
 
