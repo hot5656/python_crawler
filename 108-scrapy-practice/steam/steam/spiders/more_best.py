@@ -1,12 +1,42 @@
 import scrapy
+from scrapy.selector import Selector
+import json
 from ..items import SteamItem
 from w3lib.html import remove_tags
 
 
-class BestSellingSpider(scrapy.Spider):
-    name = 'best_selling'
+class MoreBestSpider(scrapy.Spider):
+    name = 'more_best'
     allowed_domains = ['store.steampowered.com']
-    start_urls = ['https://store.steampowered.com/search/?filter=topsellers']
+    offset_index = 0
+    INCREASEMENT_COUNT = 50
+    ITEM_MAX = 230
+
+    def query_page(self, index):
+        print(index)
+        print("3==================")
+        page_condition = f"query&start={index}&count=50&dynamic_data=&sort_by=_ASC&supportedlang=english&snr=1_7_7_7000_7&filter=topsellers&infinite=1"
+        url = f"https://store.steampowered.com/search/results/?{page_condition}"
+
+
+        # print("==================")
+        print(url)
+        # yield scrapy.Request(
+        #     url = url,
+        #     method = "GET",
+        #     callback=self.update_query
+        # )
+
+    def start_requests(self):
+        # self.query_page(self.offset_index)
+        page_condition = f"query&start={self.offset_index}&count=50&dynamic_data=&sort_by=_ASC&supportedlang=english&snr=1_7_7_7000_7&filter=topsellers&infinite=1"
+        url = f"https://store.steampowered.com/search/results/?{page_condition}"
+
+        yield scrapy.Request(
+            url = url,
+            method = "GET",
+            callback=self.update_query
+        )
 
     def get_platforms(self, list_classes):
         platforms = []
@@ -49,9 +79,22 @@ class BestSellingSpider(scrapy.Spider):
             return discounted_price.strip()
         return discounted_price
 
-    def parse(self, response):
+    def update_query(self, response):
         steam_item = SteamItem()
-        games = response.xpath("//div[@id='search_resultsRows']/a")
+
+        resp_dict = json.loads(response.body)
+        html = resp_dict['results_html']
+        start_index = resp_dict['start']
+        print("==================")
+        print(type(start_index))
+        print(f"start={start_index}, total_count={resp_dict['total_count']} ")
+        # print(html)
+        # print("==================")
+        # with open('index.html', 'w', encoding='utf-8') as f:
+        #     f.write(html)
+
+        sel = Selector(text=html)
+        games = sel.xpath("//a")
         for game in games:
             steam_item['game_url'] = game.xpath(".//@href").get()
             steam_item['img_url'] = game.xpath(".//div[@class='col search_capsule']/img/@src").get()
@@ -63,3 +106,11 @@ class BestSellingSpider(scrapy.Spider):
             steam_item['original_price'] = self.get_original_price(game.xpath(".//div[contains(@class,'search_price_discount_combined')]"))
             steam_item['discounted_price'] = self.clean_discounted_price(game.xpath("(.//div[contains(@class, 'search_price discounted')]/text())[2]").get())
             yield steam_item
+
+        if (start_index + self.INCREASEMENT_COUNT) < self.ITEM_MAX:
+            print("2==================")
+            offset_index = start_index + self.INCREASEMENT_COUNT
+            print(offset_index)
+            self.query_page(offset_index)
+
+
