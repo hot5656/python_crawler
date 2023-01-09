@@ -11,24 +11,10 @@ class MoreBestSpider(scrapy.Spider):
     offset_index = 0
     INCREASEMENT_COUNT = 50
     ITEM_MAX = 230
-
-    def query_page(self, index):
-        print(index)
-        print("3==================")
-        page_condition = f"query&start={index}&count=50&dynamic_data=&sort_by=_ASC&supportedlang=english&snr=1_7_7_7000_7&filter=topsellers&infinite=1"
-        url = f"https://store.steampowered.com/search/results/?{page_condition}"
-
-
-        # print("==================")
-        print(url)
-        # yield scrapy.Request(
-        #     url = url,
-        #     method = "GET",
-        #     callback=self.update_query
-        # )
+    # print game_name + release_date
+    item_index = 1
 
     def start_requests(self):
-        # self.query_page(self.offset_index)
         page_condition = f"query&start={self.offset_index}&count=50&dynamic_data=&sort_by=_ASC&supportedlang=english&snr=1_7_7_7000_7&filter=topsellers&infinite=1"
         url = f"https://store.steampowered.com/search/results/?{page_condition}"
 
@@ -86,7 +72,6 @@ class MoreBestSpider(scrapy.Spider):
         html = resp_dict['results_html']
         start_index = resp_dict['start']
         print("==================")
-        print(type(start_index))
         print(f"start={start_index}, total_count={resp_dict['total_count']} ")
         # print(html)
         # print("==================")
@@ -105,12 +90,26 @@ class MoreBestSpider(scrapy.Spider):
             steam_item['discount_rate'] = self.clean_discount_rate(game.xpath(".//div[contains(@class,'search_discount')]/span/text()").get())
             steam_item['original_price'] = self.get_original_price(game.xpath(".//div[contains(@class,'search_price_discount_combined')]"))
             steam_item['discounted_price'] = self.clean_discounted_price(game.xpath("(.//div[contains(@class, 'search_price discounted')]/text())[2]").get())
+            steam_item['index'] = self.item_index
+
+            # print game_name + release_date
+            # print(f"({self.item_index}) : {steam_item['game_name']} -  {steam_item['release_date']}")
+            self.item_index += 1
+
+            # output
             yield steam_item
 
         if (start_index + self.INCREASEMENT_COUNT) < self.ITEM_MAX:
-            print("2==================")
             offset_index = start_index + self.INCREASEMENT_COUNT
-            print(offset_index)
-            self.query_page(offset_index)
+            print("2 ==================")
+            print(f"next offset_index={offset_index}")
+
+            page_condition = f"query&start={offset_index}&count=50&dynamic_data=&sort_by=_ASC&supportedlang=english&snr=1_7_7_7000_7&filter=topsellers&infinite=1"
+            url = f"https://store.steampowered.com/search/results/?{page_condition}"
+            yield scrapy.Request(
+                url = url,
+                method = "GET",
+                callback=self.update_query
+            )
 
 

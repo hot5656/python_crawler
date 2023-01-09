@@ -7,6 +7,7 @@ import scrapy
 
 
 class SteamItem(scrapy.Item):
+    index = scrapy.Field()
     game_url = scrapy.Field()
     img_url = scrapy.Field()
     game_name = scrapy.Field()
