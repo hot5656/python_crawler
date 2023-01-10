@@ -1,8 +1,9 @@
 import scrapy
 from scrapy.selector import Selector
+# add Itemloader
+from scrapy.loader import ItemLoader
 import json
 from ..items import SteamItem
-from w3lib.html import remove_tags
 
 
 class MoreBestSpider(scrapy.Spider):
@@ -10,7 +11,7 @@ class MoreBestSpider(scrapy.Spider):
     allowed_domains = ['store.steampowered.com']
     offset_index = 0
     INCREASEMENT_COUNT = 50
-    ITEM_MAX = 230
+    ITEM_MAX = 500
     # print game_name + release_date
     item_index = 1
 
@@ -23,47 +24,6 @@ class MoreBestSpider(scrapy.Spider):
             method = "GET",
             callback=self.update_query
         )
-
-    def get_platforms(self, list_classes):
-        platforms = []
-        for item in list_classes:
-            platform = item.split(' ')[-1]
-            if platform == 'win':
-                platforms.append('Windows')
-            if platform == 'mac':
-                platforms.append('Mac os')
-            if platform == 'linux':
-                platforms.append('Linux')
-            if platform == 'vr_supported':
-                platforms.append('VR supported')
-        return platforms
-
-    def remove_html(self, review_summary):
-        cleaned_review_summary = ''
-        try:
-            cleaned_review_summary = remove_tags(review_summary)
-        except TypeError:
-            cleaned_review_summary = 'No reviews'
-        return cleaned_review_summary
-
-    def clean_discount_rate(self, discount_rate):
-        if discount_rate:
-            return discount_rate.lstrip('-')
-        return discount_rate
-
-    def get_original_price(self, selector_obj):
-        original_price = ''
-        div_with_discount = selector_obj.xpath(".//div[contains(@class, 'discounted')]")
-        if div_with_discount:
-            original_price = selector_obj.xpath(".//span/strike/text()").get()
-        else:
-            original_price = selector_obj.xpath("normalize-space(.//div[contains(@class, 'search_price')]/text())").get()
-        return original_price
-
-    def clean_discounted_price(self, discounted_price):
-        if discounted_price:
-            return discounted_price.strip()
-        return discounted_price
 
     def update_query(self, response):
         steam_item = SteamItem()
@@ -81,23 +41,25 @@ class MoreBestSpider(scrapy.Spider):
         sel = Selector(text=html)
         games = sel.xpath("//a")
         for game in games:
-            steam_item['game_url'] = game.xpath(".//@href").get()
-            steam_item['img_url'] = game.xpath(".//div[@class='col search_capsule']/img/@src").get()
-            steam_item['game_name'] = game.xpath(".//span[@class='title']/text()").get()
-            steam_item['release_date'] = game.xpath(".//div[@class='col search_released responsive_secondrow']/text()").get()
-            steam_item['platforms'] = self.get_platforms(game.xpath(".//span[contains(@class,'platform_img') or @class='VR Supported']/@class").getall())
-            steam_item['reviews_summary'] = self.remove_html(game.xpath(".//span[contains(@class,'search_review_summary')]/@data-tooltip-html").get())
-            steam_item['discount_rate'] = self.clean_discount_rate(game.xpath(".//div[contains(@class,'search_discount')]/span/text()").get())
-            steam_item['original_price'] = self.get_original_price(game.xpath(".//div[contains(@class,'search_price_discount_combined')]"))
-            steam_item['discounted_price'] = self.clean_discounted_price(game.xpath("(.//div[contains(@class, 'search_price discounted')]/text())[2]").get())
-            steam_item['index'] = self.item_index
-
-            # print game_name + release_date
-            # print(f"({self.item_index}) : {steam_item['game_name']} -  {steam_item['release_date']}")
+            # add Itemloader
+            loader = ItemLoader(item=SteamItem(), selector=game, response=response)
+            # loader.add_css()
+            # loader.add_value()
+            loader.add_xpath('game_url', ".//@href")
+            loader.add_xpath('img_url', ".//div[@class='col search_capsule']/img/@src")
+            loader.add_xpath('game_name', ".//span[@class='title']/text()")
+            loader.add_xpath('release_date', ".//div[@class='col search_released responsive_secondrow']/text()")
+            loader.add_xpath('platforms', ".//span[contains(@class,'platform_img') or @class='VR Supported']/@class")
+            loader.add_xpath('reviews_summary', ".//span[contains(@class,'search_review_summary')]/@data-tooltip-html")
+            loader.add_xpath('discount_rate', ".//div[contains(@class,'search_discount')]/span/text()")
+            loader.add_xpath('original_price', ".//div[contains(@class,'search_price_discount_combined')]")
+            loader.add_xpath('discounted_price', "(.//div[contains(@class, 'search_price discounted')]/text())[2]")
+            loader.add_value('index', self.item_index)
             self.item_index += 1
 
+            # add Itemloader
             # output
-            yield steam_item
+            yield loader.load_item()
 
         if (start_index + self.INCREASEMENT_COUNT) < self.ITEM_MAX:
             offset_index = start_index + self.INCREASEMENT_COUNT

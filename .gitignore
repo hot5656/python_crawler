@@ -2,3 +2,5 @@
 *.mp3
 #-- scrapy
 __pycache__/
+.scrapy/
+logs/
