@@ -94,7 +94,10 @@ TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 # set JSON utf-8 format
 FEED_EXPORT_ENCODING = 'utf-8'
 
-# save cach
-# HTTPCACHE_ENABLED = True
+# max item count
+CLOSESPIDER_ITEMCOUNT = 150
+
+# enable cache
+HTTPCACHE_ENABLED = True
 # every 3600s(1 hour) query once
-# HTTPCACHE_EXPIRATION_SECS = 3600
+HTTPCACHE_EXPIRATION_SECS = 3600
