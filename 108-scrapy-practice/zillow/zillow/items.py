@@ -8,12 +8,18 @@ from scrapy.loader.processors import TakeFirst
 
 
 class ZillowItem(scrapy.Item):
+    index = scrapy.Field(
+        output_processor = TakeFirst()
+    )
     id = scrapy.Field(
         output_processor = TakeFirst()
     )
-    img_url = scrapy.Field(
-        output_processor = TakeFirst()
-    )
+    # img_url = scrapy.Field(
+    #     output_processor = TakeFirst()
+    # )
+    # download images
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
     detail_url = scrapy.Field(
         output_processor = TakeFirst()
     )

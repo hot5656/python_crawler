@@ -68,6 +68,13 @@ DOWNLOAD_DELAY = 10
 #ITEM_PIPELINES = {
 #    'zillow.pipelines.ZillowPipeline': 300,
 #}
+# download images - activa images pipeline
+# ITEM_PIPELINES = {
+# #    'scrapy.pipelines.images.ImagesPipeline': 1
+#     'zillow.pipelines.ZillowPipeline': 1
+# }
+
+IMAGES_STORE = '.'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

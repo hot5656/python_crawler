@@ -1,5 +1,4 @@
 from http.cookies import SimpleCookie
-# parse_qs : urldecode(but it's decoded already)
 from urllib.parse import urlparse, parse_qs, urlencode
 import json
 
@@ -26,15 +25,10 @@ def parse_new_url(url, page_number):
     search_query_state = json.loads(query_string.get('searchQueryState')[0])
     search_query_state['pagination'] = {'currentPage':page_number}
     query_string.get('searchQueryState')[0] = search_query_state
-    print(query_string)
-
-    # print(query_string)
-    # print("----")
-    # print(search_query_state)
-    # print(type(search_query_state))
-    # print(type(query_string))
-    # print(type(url_parsed))
-    # print(url_parsed.query)
+    # doseq=1, no change field sequencce
+    encode_qs = urlencode(query_string, doseq=1)
+    new_url = f"https://www.zillow.com/search/GetSearchPageState.htm?{encode_qs}"
+    return new_url
 
 # cookie_parser()
-parse_new_url(URL, 3)
+# parse_new_url(URL, 6)
