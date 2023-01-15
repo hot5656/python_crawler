@@ -1,7 +1,12 @@
 from tkinter import *
+from tkinter import messagebox
 from tkinter import filedialog
 from scrapy.utils import project
 from scrapy import spiderloader
+from scrapy.utils.log import configure_logging
+from scrapy.crawler import CrawlerRunner
+from twisted.internet import reactor
+
 
 def get_spiders():
     settings = project.get_project_settings()
@@ -25,6 +30,38 @@ def browse_button():
     folder_path_entry.insert(0, folder_path)
     return folder_path
 
+def execute_spider():
+    print('a1 '+ dataset_entry.get())
+    print(dataset_entry.get() == '')
+    print('a2 '+ chosen_feed)
+    print(chosen_feed in ['CSV' , 'JSON'])
+    print(chosen_feed not in ['CSV' , 'JSON'])
+    if (dataset_entry.get() == '') or (chosen_feed not in ['CSV' , 'JSON']):
+        messagebox.showerror('Error', 'All_entries are required')
+        return
+    
+    try:
+        # feed_uri = f"file:///{folder_path}{dataset_entry.get()}.{chosen_feed}"
+        feed_uri = f"file:///{folder_path}{dataset_entry.get()}.{chosen_feed}"
+    except :
+        messagebox.showerror('Error', 'All_entries are required(except)')
+
+    settings = project.get_project_settings()
+    settings.set('FEED_URI', feed_uri)
+    settings.set('FEED_TYPE', chosen_feed)
+    # settings.set('TWISTED_REACTOR ', 'twisted.internet.asyncioreactor.AsyncioSelectorReactor')
+
+    print("----------------")
+    print(feed_uri)
+    print(settings)
+
+    configure_logging()
+    runner = CrawlerRunner(settings)
+    print(f"--->{chosen_spider}")
+    runner.crawl(chosen_spider)
+
+    reactor.run()
+
 app = Tk()
 
 # Spider List
@@ -46,6 +83,14 @@ feed_text = StringVar(app)
 feed_text.set('Chose a feed')
 feeds = ['JSON', 'CSV']
 
+a = 'JSON'
+b = 'CSV'
+c = 'xx'
+print( a in feeds)
+print( b in feeds)
+print( c in feeds)
+print("=============")
+
 feed_dropdown = OptionMenu(app, feed_text, *feeds, command=get_chosen_feed)
 feed_dropdown.grid(row=1, column=1, columnspan=2)
 
@@ -55,14 +100,14 @@ folder_path_entry = Entry(app, textvariable=folder_path_text)
 folder_path_entry.grid(row=2, column=0, pady=10, padx=10)
 
 # Dataset Entry
-dataset_path_text = StringVar(app)
-dataset_path_entry = Entry(app, textvariable=dataset_path_text, width=10)
-dataset_path_entry.grid(row=2, column=1, pady=10, padx=10)
+dataset_text = StringVar(app)
+dataset_entry = Entry(app, textvariable=dataset_text, width=10)
+dataset_entry.grid(row=2, column=1, pady=10, padx=10)
 
 browse_btn = Button(app, text='Browse', command=browse_button)
 browse_btn.grid(row=2, column=2)
 
-execute_btn = Button(app, text='Execute')
+execute_btn = Button(app, text='Execute', command=execute_spider)
 execute_btn.grid(row=3, column=0, columnspan=3)
 
 app.title('Spider Executer')
