@@ -5,6 +5,9 @@ from scrapy.utils import project
 from scrapy import spiderloader
 from scrapy.utils.log import configure_logging
 from scrapy.crawler import CrawlerRunner
+from scrapy.utils.reactor import install_reactor
+# need put in front of "from twisted.internet import reactor"
+install_reactor('twisted.internet.asyncioreactor.AsyncioSelectorReactor')
 from twisted.internet import reactor
 
 
@@ -31,36 +34,32 @@ def browse_button():
     return folder_path
 
 def execute_spider():
-    print('a1 '+ dataset_entry.get())
-    print(dataset_entry.get() == '')
-    print('a2 '+ chosen_feed)
-    print(chosen_feed in ['CSV' , 'JSON'])
-    print(chosen_feed not in ['CSV' , 'JSON'])
-    if (dataset_entry.get() == '') or (chosen_feed not in ['CSV' , 'JSON']):
+
+    if (dataset_entry.get() == '') or (chosen_feed not in feeds):
         messagebox.showerror('Error', 'All_entries are required')
         return
-    
+
+    # It doesn't need - only try open file browser
     try:
-        # feed_uri = f"file:///{folder_path}{dataset_entry.get()}.{chosen_feed}"
-        feed_uri = f"file:///{folder_path}{dataset_entry.get()}.{chosen_feed}"
+        feed_uri = f"file:///{folder_path}/{dataset_entry.get()}.{chosen_feed}"
     except :
         messagebox.showerror('Error', 'All_entries are required(except)')
 
     settings = project.get_project_settings()
-    settings.set('FEED_URI', feed_uri)
-    settings.set('FEED_TYPE', chosen_feed)
-    # settings.set('TWISTED_REACTOR ', 'twisted.internet.asyncioreactor.AsyncioSelectorReactor')
-
-    print("----------------")
-    print(feed_uri)
-    print(settings)
+    feed_name = f"data/{dataset_entry.get()}.{chosen_feed}"
+    feed_value = {'format': chosen_feed}
+    settings.set('FEEDS', { feed_name : feed_value})
 
     configure_logging()
     runner = CrawlerRunner(settings)
-    print(f"--->{chosen_spider}")
     runner.crawl(chosen_spider)
 
+    # add asyn crawl
+    d = runner.join()
+    d.addBoth(lambda _: reactor.stop())
+
     reactor.run()
+
 
 app = Tk()
 
@@ -81,16 +80,7 @@ feed_label.grid(row=1, column=0, sticky=W, pady=10, padx=10)
 
 feed_text = StringVar(app)
 feed_text.set('Chose a feed')
-feeds = ['JSON', 'CSV']
-
-a = 'JSON'
-b = 'CSV'
-c = 'xx'
-print( a in feeds)
-print( b in feeds)
-print( c in feeds)
-print("=============")
-
+feeds = ['json', 'csv']
 feed_dropdown = OptionMenu(app, feed_text, *feeds, command=get_chosen_feed)
 feed_dropdown.grid(row=1, column=1, columnspan=2)
 
