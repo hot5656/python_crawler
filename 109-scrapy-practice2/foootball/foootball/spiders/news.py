@@ -33,13 +33,10 @@ class NewsSpider(scrapy.Spider):
             }
 
         next_page =  response.xpath("//a[@rel='next']/@href").get()
-        if next_page or self.index < self.MAX_NEWS:
+        if next_page and self.index < self.MAX_NEWS:
             time.sleep(5)
             print("=========================")
             print("--"+next_page+"--")
-            # print(response.urljoin(next_page))
             # yield scrapy.Request(url=next_page, callback=self.parse, headers=self.headers, dont_filter=True)
             yield scrapy.Request(url=next_page, callback=self.parse, headers=self.headers)
 
-
-        # (//h2[@class='h2-title topic-line-four'])[2]/following::div/div[@class='row']
