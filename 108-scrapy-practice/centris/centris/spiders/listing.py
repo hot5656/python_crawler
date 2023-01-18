@@ -164,7 +164,8 @@ class ListingSpider(scrapy.Spider):
                     'fea': features,
                     'pri': price,
                     'city': city,
-                    'url': abs_url
+                    'url': abs_url,
+                    'index': self.index,
                 },
                 # add for splash user+password(run Aquarium)
                 splash_headers={
@@ -204,7 +205,8 @@ class ListingSpider(scrapy.Spider):
             'features': features,
             'price': price,
             'city': city,
-            'url': url
+            'url': url,
+            'index': response.request.meta['index']
         }
 
 
