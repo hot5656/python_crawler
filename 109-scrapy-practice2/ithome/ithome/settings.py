@@ -76,7 +76,8 @@ DOWNLOADER_MIDDLEWARES = {
 #    'ithome.pipelines.IthomePipeline': 300,
 #}
 ITEM_PIPELINES = {
-   'ithome.pipelines.PostgreSqlPipeline': 300,
+#    'ithome.pipelines.PostgreSqlPipeline': 300,
+   'ithome.pipelines.MongoPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
