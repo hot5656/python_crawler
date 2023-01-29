@@ -12,6 +12,7 @@ class Ithome2Item(scrapy.Item):
     pass
 
 class IthomeArticleItem(scrapy.Item):
+    _id = scrapy.Field()
     url = scrapy.Field()
     author = scrapy.Field()
     publish_time = scrapy.Field()
@@ -20,3 +21,10 @@ class IthomeArticleItem(scrapy.Item):
     tags = scrapy.Field()
     content = scrapy.Field()
     update_time = scrapy.Field()
+
+class IthomeReplyItem(scrapy.Item):
+    _id = scrapy.Field()
+    article_id = scrapy.Field()
+    author = scrapy.Field()
+    publish_time = scrapy.Field()
+    content = scrapy.Field()

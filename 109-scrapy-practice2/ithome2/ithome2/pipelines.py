@@ -9,17 +9,20 @@ from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 from pymongo import MongoClient
 from datetime import datetime
+import ithome2.items as items
 
 class Ithome2Pipeline:
     def process_item(self, item, spider):
-        if item['view_count'] < 100:
-            raise DropItem(f'[{item["title"]}] 瀏覽數小於 100')
+        if type(item).__name__ == 'IthomeArticleItem':
+            if item['view_count'] < 100:
+                raise DropItem(f'[{item["title"]}] 瀏覽數小於 100')
 
         return item
 
 
 class MongoPipeline:
-    collection_name = 'articles'
+    collection_article = 'articles'
+    collection_response = 'response'
 
     def open_spider(self, spider):
         # DB 不用先建也 ok
@@ -34,30 +37,42 @@ class MongoPipeline:
         ))
         print('資料庫連線成功！')
 
-
         self.db = self.client[dbname]
-        # self.article_collection = self.db.articles
-        # self.response_collection = self.db.response
 
     def close_spider(self, spider):
         self.client.close()
 
     def process_item(self, item, spider):
-        # article_id = self.db[self.collection_name].insert_one(dict(item)).inserted_id
+        # if type(item).__name__ == 'IthomeArticleItem':
+        if type(item) is items.IthomeArticleItem:
+            # 查詢資料庫中是否有相同網址的資料存在
+            doc = self.db[self.collection_article].find_one({'url': item['url']})
+            item['update_time'] = datetime.now()
 
-        # 查詢資料庫中是否有相同網址的資料存在
-        doc = self.db[self.collection_name].find_one({'url': item['url']})
-        item['update_time'] = datetime.now()
+            if not doc:
+                # 沒有就新增
+                item['_id'] = str(self.db[self.collection_article].insert_one(dict(item)).inserted_id)
+            else:
+                # 已存在則更新
+                self.db[self.collection_article].update_one(
+                    {'_id': doc['_id']},
+                    {'$set': dict(item)}
+                )
+                item['_id'] = str(doc['_id'])
 
-        if not doc:
-            # 沒有就新增
-            article_id = self.db[self.collection_name].insert_one(dict(item)).inserted_id
-        else:
-            # 已存在則更新
-            self.db[self.collection_name].update_one(
-                {'_id': doc['_id']},
-                {'$set': dict(item)}
-            )
-            article_id = doc['_id']
+        # if type(item).__name__ == 'IthomeReplyItem':
+        if type(item) is items.IthomeReplyItem:
+            document = self.db[self.collection_response].find_one(item['_id'])
+
+            if not document:
+                insert_result = self.db[self.collection_response].insert_one(dict(item))
+            else:
+                del item['_id']
+                self.db[self.collection_response].update_one(
+                    {'_id': document['_id']},
+                    {'$set': dict(item)},
+                    upsert=True
+                )
+
         return item
 
