@@ -9,7 +9,7 @@ class ArticlesSpider(scrapy.Spider):
     allowed_domains = ['ithelp.ithome.com.tw']
     index = 0
     page_index = 1
-    MAX_PAGE = 10
+    MAX_PAGE = 2
     URL_1ST = 'https://ithelp.ithome.com.tw/articles?tab=tech'
 
     script = '''

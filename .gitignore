@@ -4,3 +4,5 @@
 __pycache__/
 .scrapy/
 logs/
+#-- altas env file
+mongodb_altas.py
