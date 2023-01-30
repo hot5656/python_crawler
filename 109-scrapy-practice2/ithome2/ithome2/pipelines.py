@@ -10,6 +10,9 @@ from scrapy.exceptions import DropItem
 from pymongo import MongoClient
 from datetime import datetime
 import ithome2.items as items
+import ithome2.env as env
+# save item to json
+import json
 
 class Ithome2Pipeline:
     def process_item(self, item, spider):
@@ -25,22 +28,27 @@ class MongoPipeline:
     collection_response = 'response'
 
     def open_spider(self, spider):
-        # DB 不用先建也 ok
-        host = 'localhost'
         dbname = 'ithome2'
-
-        self.client = MongoClient('mongodb://%s:%s@%s:%s/' % (
-            'mongoadmin',   # 資料庫帳號
-            'mg123456',     # 資料庫密碼
-            'localhost',    # 資料庫位址
-            '27017'         # 資料庫埠號
-        ))
-        print('資料庫連線成功！')
-
+        user = env.MONGO_USER
+        password = env.MONGO_PASSWORD
+        host = 'localhost'
+        port =  27017
+        MONGO_URI = f'mongodb://{user}:{password}@{host}:{port}/'
+        self.client = MongoClient(MONGO_URI)
         self.db = self.client[dbname]
+        # save item to json
+        self.file1 = open('art.json', 'w', encoding='utf-8')
+        self.file2 = open('resp.json', 'w', encoding='utf-8')
+        self.file1.write('[\n')
+        self.file2.write('[\n')
 
     def close_spider(self, spider):
         self.client.close()
+        # save item to json
+        self.file1.write(']')
+        self.file2.write(']')
+        self.file1.close()
+        self.file2.close()
 
     def process_item(self, item, spider):
         # if type(item).__name__ == 'IthomeArticleItem':
@@ -60,10 +68,23 @@ class MongoPipeline:
                 )
                 item['_id'] = str(doc['_id'])
 
+            # save item to json
+            values = dict(item)
+            values['update_time'] = values['update_time'].strftime("%Y-%m-%d %H:%M:%S")
+            line = json.dumps(values, ensure_ascii=False) + ",\n"
+            self.file1.write(line)
+
         # if type(item).__name__ == 'IthomeReplyItem':
         if type(item) is items.IthomeReplyItem:
-            document = self.db[self.collection_response].find_one(item['_id'])
+            # save item to json
+            values = dict(item)
+            del values['_id']
+            values['publish_time'] = values['publish_time'].strftime("%Y-%m-%d %H:%M:%S")
+            values['article_id'] = str(values['article_id'])
+            line = json.dumps(values, ensure_ascii=False) + ",\n"
+            self.file2.write(line)
 
+            document = self.db[self.collection_response].find_one(item['_id'])
             if not document:
                 insert_result = self.db[self.collection_response].insert_one(dict(item))
             else:
