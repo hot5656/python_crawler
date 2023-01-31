@@ -3,15 +3,19 @@ from scrapy_splash import SplashRequest
 import ppt.items as items
 from scrapy.loader import ItemLoader
 import urllib
+import os
 
 
 class BeautySpider(scrapy.Spider):
+    JPG = '.jpg'
+    PNG = '.png'
+    IMAGE_FOLDER = 'images'
+    IMAGE_MAX = 5
     name = 'beauty'
     allowed_domains = ['www.ptt.cc']
     URL_ENTRY = 'https://www.ptt.cc/bbs/Beauty/index.html'
     index = 1
 
-    # local element = splash:select('.over18-button-container > button')
     script_1st = '''
         function main(splash, args)
             splash:on_request(function(request)
@@ -26,9 +30,9 @@ class BeautySpider(scrapy.Spider):
             assert(splash:go(args.url))
             assert(splash:wait(0.5))
 
-            local element = splash:select('body > div.bbs-screen.bbs-content.center.clear > form > div:nth-child(2) > button')
+            local element = splash:select('.over18-button-container > button')
             element:mouse_click()
-            assert(splash:wait(5))
+            assert(splash:wait(1))
 
             return splash:html()
         end
@@ -84,41 +88,32 @@ class BeautySpider(scrapy.Spider):
                         args={'lua_source': self.script_1st})
 
     def post_parse(self, response):
-        # if self.index < 5:
-        #     lists = response.xpath("//div[@class='richcontent']")
-        #     for list in lists:
-        #         # print(list.xpath(".//img/@src").get())
-        #         image_url = list.xpath(".//img/@src").get()
-        #         loader = ItemLoader(item=items.PptPostItem())
-        #         loader.add_value('image_urls', image_url)
-        #         loader.add_value('index', self.index)
-        #         self.index += 1
-        #         yield loader.load_item()
-        if self.index < 5:
+        if self.index < self.IMAGE_MAX:
+            title = response.xpath("(//div[@class='article-metaline']//span[@class='article-meta-value'])[2]/text()").get()
             lists = response.xpath("//div[@class='richcontent']")
+            list_index = 1
             for list in lists:
-                # item = items.PptPostItem()
-                # image_url = list.xpath(".//img/@src").get()
-                # item['image_urls'] = [image_url]
-                # item['name'] = image_url
-                # item['index'] = self.index
-                # # print(f"({self.index} {image_url})")
-                # self.index += 1
-                # yield item
-
-                # print(f"-->response.url")
                 image_url = list.xpath(".//img/@src").get()
                 loader = ItemLoader(item=items.PptPostItem())
                 loader.add_value('image_urls', [image_url])
                 loader.add_value('index', self.index)
+                if self.PNG in image_url:
+                    file_name = f"{title}{list_index}{self.PNG}"
+                elif self.JPG in image_url:
+                    file_name = f"{title}{list_index}{self.JPG}"
+                else:
+                    file_name = f"{title}{list_index}None{self.JPG}"
+                list_index += 1
+
+                self.image_download(image_url, file_name, self.IMAGE_FOLDER)
                 self.index += 1
-                self.image_download(image_url, f"pic{self.index}", "images")
                 yield loader.load_item()
 
-                if self.index > 5:
+                if self.index > self.IMAGE_MAX:
                     break
 
     def image_download(self, url, name, folder):
-        print(f"---> folder={folder} name={name} url={url}")
-        urllib.request.urlretrieve(url, f"./{folder}/{name}")
+        dir=os.path.abspath(folder)
+        work_path=os.path.join(dir,name)
+        urllib.request.urlretrieve(url, work_path)
 
