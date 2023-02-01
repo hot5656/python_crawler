@@ -112,5 +112,8 @@ TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 # FILES_EXPIRES = 0
 # IMAGES_EXPIRES = 0
 
+# debug show cookie
+# SPLASH_COOKIES_DEBUG=True
+
 # put lastest
 SPLASH_URL = 'http://localhost:8050'

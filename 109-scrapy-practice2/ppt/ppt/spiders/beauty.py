@@ -16,6 +16,7 @@ class BeautySpider(scrapy.Spider):
     URL_ENTRY = 'https://www.ptt.cc/bbs/Beauty/index.html'
     index = 1
 
+    # change to record cookie
     script_1st = '''
         function main(splash, args)
             splash:on_request(function(request)
@@ -34,28 +35,36 @@ class BeautySpider(scrapy.Spider):
             element:mouse_click()
             assert(splash:wait(1))
 
-            return splash:html()
+            return {
+                cookies = splash:get_cookies(),
+                html = splash:html(),
+            }
         end
     '''
 
+    # change to record cookie
     script_2nd = '''
         function main(splash, args)
+            splash:init_cookies(splash.args.cookies)
+
             splash:on_request(function(request)
                 if request.url:find('css') then
                     request.abort()
                 end
             end)
             splash.images_enabled = false
-            splash.js_enabled = false
+            -- need run js for click     --
+            -- splash.js_enabled = false --
 
             assert(splash:go(args.url))
             assert(splash:wait(0.5))
 
-            local element = splash:select('body > div.bbs-screen.bbs-content.center.clear > form > div:nth-child(2) > button')
-            element:mouse_click()
-            assert(splash:wait(5))
+            assert(splash:wait(1))
 
-            return splash:html()
+            return {
+                cookies = splash:get_cookies(),
+                html = splash:html(),
+            }
         end
     '''
 
@@ -68,6 +77,9 @@ class BeautySpider(scrapy.Spider):
     def parse(self, response):
         # with open('index.html', 'wb') as f:
         #     f.write(response.body)
+
+        # change to record cookie
+        self.cookies = response.data['cookies']
         posts = response.xpath("//div[@class='r-ent']")
         for post in posts:
             beaudy_item = items.PptBeautyItem()
@@ -81,13 +93,17 @@ class BeautySpider(scrapy.Spider):
                 if '公告' not in beaudy_item['title']:
                     # yield beaudy_item
 
-                    # also verify person over 18
+                    # change to record cookie
                     yield SplashRequest(url=response.urljoin(beaudy_item['url']),
                         callback=self.post_parse,
                         endpoint='execute',
-                        args={'lua_source': self.script_1st})
+                        args={'lua_source': self.script_2nd},
+                        cookies = self.cookies
+                        )
 
     def post_parse(self, response):
+        # change to record cookie
+        self.cookies = response.data['cookies']
         if self.index < self.IMAGE_MAX:
             title = response.xpath("(//div[@class='article-metaline']//span[@class='article-meta-value'])[2]/text()").get()
             lists = response.xpath("//div[@class='richcontent']")
@@ -115,5 +131,6 @@ class BeautySpider(scrapy.Spider):
     def image_download(self, url, name, folder):
         dir=os.path.abspath(folder)
         work_path=os.path.join(dir,name)
+        # print(f"-->{name}")
         urllib.request.urlretrieve(url, work_path)
 
