@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter
 
 
-class MomoPipeline:
+class Momo2Pipeline:
     def process_item(self, item, spider):
         return item

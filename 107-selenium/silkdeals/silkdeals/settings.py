@@ -94,6 +94,9 @@ DOWNLOADER_MIDDLEWARES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 
+# set JSON utf-8 format
+FEED_EXPORT_ENCODING = 'utf-8'
+
 # selenium
 from shutil import which
 

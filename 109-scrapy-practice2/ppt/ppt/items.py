@@ -4,7 +4,9 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 
 import scrapy
-from scrapy.loader.processors import TakeFirst
+# from scrapy.loader.processors import TakeFirst
+# Warning: scrapy.loader.processors.TakeFirst is deprecated, instantiate itemloaders.processors.TakeFirst instead.
+from itemloaders.processors import TakeFirst
 
 
 class PptCategoryItem(scrapy.Item):

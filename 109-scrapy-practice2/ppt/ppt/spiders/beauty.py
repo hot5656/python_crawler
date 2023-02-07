@@ -131,6 +131,6 @@ class BeautySpider(scrapy.Spider):
     def image_download(self, url, name, folder):
         dir=os.path.abspath(folder)
         work_path=os.path.join(dir,name)
-        # print(f"-->{name}")
-        urllib.request.urlretrieve(url, work_path)
+        print(f"-->{name}")
+        # urllib.request.urlretrieve(url, work_path)
 
