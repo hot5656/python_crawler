@@ -13,6 +13,9 @@ options.add_experimental_option('excludeSwitches', ['enable-logging'])
 # set browser not auto quit()
 options.add_experimental_option('detach', True)
 
+# add argument headless - no open browser
+# options.add_argument('--headless')
+
 # auto install driver
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 driver.get("https://www.dcard.tw/f")
